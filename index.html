@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Eigen Change Impact Estimator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <main class="container">
+    <h1>Eigen Change Impact Estimator</h1>
+
+    <p class="subtitle">
+      Estimación cuantitativa del impacto estructural antes del merge.
+    </p>
+
+    <section class="inputs">
+      <label>
+        Archivos modificados
+        <input type="number" id="files" value="8" min="1" />
+      </label>
+
+      <label>
+        Profundidad del cambio
+        <input type="number" id="depth" value="4" min="1" />
+      </label>
+
+      <label>
+        Frecuencia de cambios
+        <input type="number" id="frequency" value="15" min="0" />
+      </label>
+
+      <label>
+        Tipo de cambio
+        <select id="changeType">
+          <option value="local">Local</option>
+          <option value="feature">Feature</option>
+          <option value="core" selected>Core</option>
+        </select>
+      </label>
+
+      <button id="analyzeBtn">Analizar impacto</button>
+    </section>
+
+    <pre id="output" class="output hidden"></pre>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
