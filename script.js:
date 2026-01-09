@@ -1,1 +1,72 @@
-aaa
+// Tapiz JS — observador estructural mínimo (2D)
+
+// ---------- utilidades ----------
+function mean(a) {
+  return a.reduce((s, x) => s + x, 0) / a.length;
+}
+
+function covariance2D(X) {
+  // X: array de [x, y]
+  const mx = mean(X.map(v => v[0]));
+  const my = mean(X.map(v => v[1]));
+
+  let sxx = 0, syy = 0, sxy = 0;
+  for (const [x, y] of X) {
+    const dx = x - mx;
+    const dy = y - my;
+    sxx += dx * dx;
+    syy += dy * dy;
+    sxy += dx * dy;
+  }
+  const n = X.length - 1;
+  return {
+    a: sxx / n, // var x
+    b: sxy / n, // cov
+    c: syy / n  // var y
+  };
+}
+
+// autovalores de matriz simétrica 2x2 [[a,b],[b,c]]
+function eigenvalues2x2(a, b, c) {
+  const tr = a + c;
+  const det = a * c - b * b;
+  const disc = Math.max(0, tr * tr - 4 * det);
+  const s = Math.sqrt(disc);
+  return [(tr + s) / 2, (tr - s) / 2]; // [λ1, λ2]
+}
+
+// ---------- Tapiz ----------
+function observeWindow(X) {
+  try {
+    const { a, b, c } = covariance2D(X);
+    const [l1, l2] = eigenvalues2x2(a, b, c);
+    if (l1 <= 0) throw new Error("degenerado");
+
+    const lambda2_norm = l2 / l1;
+    let regime = "ruptura";
+    if (lambda2_norm < 0.15) regime = "anclado";
+    else if (lambda2_norm < 0.35) regime = "fragil";
+
+    return {
+      lambda2_norm,
+      direction: 0,
+      regime,
+      valid: true
+    };
+  } catch {
+    return { lambda2_norm: 0, direction: 0, regime: "invalido", valid: false };
+  }
+}
+
+// ---------- ejemplo ----------
+const N = 64;
+const X = [];
+for (let i = 0; i < N; i++) {
+  const t = (2 * Math.PI * i) / N;
+  const signal = Math.sin(t);
+  const noise = (Math.random() - 0.5) * 0.4; // ruido bajo
+  X.push([signal + noise, noise]);
+}
+
+const state = observeWindow(X);
+console.log(state);
