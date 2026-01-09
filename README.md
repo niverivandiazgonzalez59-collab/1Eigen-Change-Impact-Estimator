@@ -1,92 +1,65 @@
-Eigen Change Impact Estimator
+# Tapiz — Observador Estructural Mínimo
 
-Herramienta cuantitativa para estimar el impacto estructural de cambios en el código antes del merge, orientada a procesos de pull request review, control de riesgo arquitectónico y priorización técnica.
+Tapiz es un producto matemático mínimo para **observar estructura**, no datos.
 
-El sistema implementa un motor de análisis compacto, verificable por cualquier desarrollador, que proyecta métricas de cambio a un espacio estructural sin exponer el núcleo matemático interno.
+No predice.  
+No optimiza.  
+No aprende pesos.
 
-
----
-
-Objetivo
-
-Proveer una estimación objetiva, reproducible y rápida del impacto de un cambio de código, antes de su integración, respondiendo a preguntas clave como:
-
-¿Qué tan riesgoso es este cambio?
-
-¿El impacto es local o sistémico?
-
-¿Dónde conviene enfocar la revisión?
-
-¿Qué tan confiable es la estimación?
-
-
+Solo **mide estabilidad y cambio estructural** a partir de relaciones espectrales simples.
 
 ---
 
-Inputs
+## Idea central
 
-El estimador opera sobre parámetros simples, fácilmente obtenibles en cualquier PR:
+> **El Tapiz no memoriza datos.  
+> Memoriza cambios estructurales.**
 
-Parámetro	Descripción
-
-files	Cantidad de archivos modificados
-depth	Profundidad estructural del cambio
-frequency	Frecuencia reciente de cambios
-changeType	Tipo de cambio: local, feature, core
-
-
+Dos señales distintas pueden compartir el mismo Tapiz  
+si su estructura es equivalente.
 
 ---
 
-Output
+## Qué hace Tapiz
 
-El motor devuelve un objeto estructurado:
-
-{
-  "metrics": {
-    "impact": 0-100,
-    "volatility": 0-100,
-    "stability": 0-100,
-    "instability": 0-100,
-    "composite": 0-100
-  },
-  "risk": "Low | Medium | High | Critical",
-  "confidence": 0-100,
-  "diagnostics": [
-    "Mensajes priorizados sobre el cambio"
-  ]
-}
-
-Descripción de métricas
-
-Impact: Magnitud estructural del cambio.
-
-Volatility: Inestabilidad temporal inducida.
-
-Stability: Coherencia estructural preservada.
-
-Instability: Riesgo de propagación o ruptura.
-
-Composite: Score global ponderado.
-
-Risk: Clasificación final del riesgo.
-
-Confidence: Nivel de confiabilidad de la estimación.
-
-Diagnostics: Recomendaciones priorizadas para revisión.
-
-
+- Observa una ventana de datos numéricos
+- Extrae una relación espectral mínima (`lambda2_norm`)
+- Clasifica el estado en un **régimen estructural**
+- Recuerda **solo cuando algo cambia de verdad**
 
 ---
 
-Diseño
+## Qué NO hace
 
-Núcleo matemático abstraído y protegido
+- ❌ No predice el futuro  
+- ❌ No clasifica con Machine Learning  
+- ❌ No entrena modelos  
+- ❌ No depende de un dominio específico  
 
-Sin dependencias externas
+Tapiz es **agnóstico al significado de los datos**.
 
-Sin heurísticas arbitrarias
+---
 
-Basado en proyecciones geométricas y métricas normalizadas
+## Componentes
 
-Totalmente determinista y auditable
+- `state.py`  
+  Define el estado Tapiz (inmutable).
+
+- `core.py`  
+  Realiza la observación estructural.
+
+- `memory.py`  
+  Memoria selectiva: guarda solo eventos relevantes.
+
+- `main.py`  
+  Ejecución de ejemplo.
+
+---
+
+## Ejemplo mínimo
+
+```python
+state = observe_window(X)
+event = memory.observe(state)
+
+print(state)
