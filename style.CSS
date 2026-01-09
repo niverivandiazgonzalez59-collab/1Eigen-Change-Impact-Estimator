@@ -1,89 +1,71 @@
-/* ===============================================================
-   Eigen Change Impact Estimator — UI Styles
-   Estilo sobrio, legible y orientado a revisión técnica
-   =============================================================== */
+:root {
+  --bg: #0f1220;
+  --panel: #161a2e;
+  --text: #e7e9ff;
+  --muted: #9aa0ff;
+  --accent: #6c7bff;
+  --ok: #4dd0a6;
+  --warn: #ffb74d;
+  --bad: #ef5350;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono";
+}
+
+* { box-sizing: border-box; }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: #0d1117;
-  color: #c9d1d9;
   margin: 0;
-  padding: 0;
+  background: linear-gradient(180deg, #0f1220, #0b0e1a);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 
 .container {
-  max-width: 760px;
-  margin: 80px auto;
+  max-width: 860px;
+  margin: 48px auto;
   padding: 24px;
 }
 
+.card {
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
 h1 {
-  font-size: 28px;
-  margin-bottom: 8px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
 }
 
 .subtitle {
-  color: #8b949e;
-  margin-bottom: 24px;
-  line-height: 1.4;
+  color: var(--muted);
+  margin-bottom: 16px;
 }
 
-.inputs {
-  display: grid;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  color: #c9d1d9;
-}
-
-input,
-select {
-  margin-top: 6px;
-  padding: 8px;
-  background-color: #161b22;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
-  border-radius: 6px;
+pre {
+  background: #0b0e1a;
+  color: #dbe0ff;
+  padding: 14px;
+  border-radius: 10px;
+  overflow: auto;
+  font-family: var(--mono);
   font-size: 14px;
 }
 
-input:focus,
-select:focus {
-  outline: none;
-  border-color: #58a6ff;
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  margin-right: 8px;
 }
 
-button {
-  background-color: #238636;
-  color: #ffffff;
-  border: none;
-  padding: 12px;
-  font-size: 15px;
-  cursor: pointer;
-  border-radius: 6px;
-  margin-top: 8px;
-}
+.badge.ok { background: rgba(77,208,166,.15); color: var(--ok); }
+.badge.warn { background: rgba(255,183,77,.15); color: var(--warn); }
+.badge.bad { background: rgba(239,83,80,.15); color: var(--bad); }
 
-button:hover {
-  background-color: #2ea043;
-}
-
-.output {
-  margin-top: 24px;
-  background-color: #161b22;
-  padding: 16px;
-  border-radius: 6px;
-  font-size: 13px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  border: 1px solid #30363d;
-}
-
-.hidden {
-  display: none;
+.footer {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12px;
 }
